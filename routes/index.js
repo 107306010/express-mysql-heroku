@@ -5,7 +5,7 @@ var router = express.Router();
 router.get('/', function (req, res, next) {
   var db = req.con;
   var data = "";
-  db.query('SELECT * FROM nezr5jll30t4685w.new_table;', function (err, rows) {
+  db.query('SELECT * FROM heroku_25ee65053a55ba4.remote_restaurant;', function (err, rows) {
     if (err) {
       console.log(err);
     }

@@ -12,10 +12,10 @@ var users = require('./routes/users');
 var mysql = require("mysql");
 
 var con = mysql.createConnection({
-  host: 'qn0cquuabmqczee2.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
-  user: 'g4i0b62yy5zasqed',
-  password: 'yvja9c98eqh6k4hh',
-  database: 'nezr5jll30t4685w',
+  host: 'us-cdbr-east-02.cleardb.com',
+  user: 'b53e508bf3d1a3',
+  password: 'f225a8f1',
+  database: 'heroku_25ee65053a55ba4',
 });
 
 con.connect(function (err) {
