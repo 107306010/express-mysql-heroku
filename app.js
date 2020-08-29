@@ -8,25 +8,28 @@ var bodyParser = require('body-parser');
 var routes = require('./routes/index');
 var users = require('./routes/users');
 
-// DataBase 
+//DataBase 
 var mysql = require("mysql");
 
-var con = mysql.createConnection({
+var pool = mysql.createPool({
+  connectionLimit: 10,
   host: 'us-cdbr-east-02.cleardb.com',
   user: 'b53e508bf3d1a3',
   password: 'f225a8f1',
   database: 'heroku_25ee65053a55ba4',
 });
+var app = express();
 
-con.connect(function (err) {
+pool.getConnection(function (err, connection) {
   if (err) {
     console.log('connecting error!');
     return;
   }
   console.log('connecting success');
+  connection.release();
 });
 
-var app = express();
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -40,9 +43,10 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+
 // db state
 app.use(function (req, res, next) {
-  req.con = con;
+  req.con = pool;
   next();
 });
 
