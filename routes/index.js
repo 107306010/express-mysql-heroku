@@ -22,33 +22,9 @@ router.get('/add', function (req, res, next) {
 });
 
 // add post
-router.post('/restaurantAdd', function (req, res, next) {
+const AddingRestaurantMethod = require('../controllers/adding_controller');
 
-  var db = req.con;
+addingRestaurantMethod = new AddingRestaurantMethod();
+router.post('/restaurantAdd', addingRestaurantMethod.postAdd);
 
-  var sql = {
-    // id: req.body.id,
-    telephone: req.body.telephone,
-    address: req.body.address,
-    營業時間: req.body.營業時間,
-    類別: req.body.類別,
-    店名: req.body.店名
-  };
-
-  //console.log(sql);
-  // db.query('SET @@auto_increment_increment=1;', function (err, rows) {
-  //   if (err) {
-  //     console.log(err);
-  //   }
-  // });
-  var qur = db.query('INSERT INTO remote_restaurant SET ?', sql, function (err, rows) {
-    if (err) {
-      console.log(err);
-    }
-
-    res.setHeader('Content-Type', 'application/json');
-    res.redirect('/');
-  });
-
-});
 module.exports = router;

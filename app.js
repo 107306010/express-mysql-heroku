@@ -10,16 +10,8 @@ var users = require('./routes/users');
 
 
 //DataBase 
-var pool = require('./config/config')
+var pool = require('./models/connection_db')
 
-pool.getConnection(function (err, connection) {
-  if (err) {
-    console.log('connecting error!');
-    return;
-  }
-  console.log('connecting success');
-  connection.release();
-});
 
 
 var app = express();
