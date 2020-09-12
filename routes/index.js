@@ -15,5 +15,40 @@ router.get('/', function (req, res, next) {
     res.render('index', { title: 'Restaurant', data: data });
   });
 });
+router.get('/add', function (req, res, next) {
 
+  // use userAdd.ejs
+  res.render('restaurantAdd', { title: 'Add Restaurant' });
+});
+
+// add post
+router.post('/restaurantAdd', function (req, res, next) {
+
+  var db = req.con;
+
+  var sql = {
+    // id: req.body.id,
+    telephone: req.body.telephone,
+    address: req.body.address,
+    營業時間: req.body.營業時間,
+    類別: req.body.類別,
+    店名: req.body.店名
+  };
+
+  //console.log(sql);
+  // db.query('SET @@auto_increment_increment=1;', function (err, rows) {
+  //   if (err) {
+  //     console.log(err);
+  //   }
+  // });
+  var qur = db.query('INSERT INTO remote_restaurant SET ?', sql, function (err, rows) {
+    if (err) {
+      console.log(err);
+    }
+
+    res.setHeader('Content-Type', 'application/json');
+    res.redirect('/');
+  });
+
+});
 module.exports = router;

@@ -8,17 +8,9 @@ var bodyParser = require('body-parser');
 var routes = require('./routes/index');
 var users = require('./routes/users');
 
-//DataBase 
-var mysql = require("mysql");
 
-var pool = mysql.createPool({
-  connectionLimit: 10,
-  host: 'us-cdbr-east-02.cleardb.com',
-  user: 'b53e508bf3d1a3',
-  password: 'f225a8f1',
-  database: 'heroku_25ee65053a55ba4',
-});
-var app = express();
+//DataBase 
+var pool = require('./config/config')
 
 pool.getConnection(function (err, connection) {
   if (err) {
@@ -30,8 +22,8 @@ pool.getConnection(function (err, connection) {
 });
 
 
-
-// view engine setup
+var app = express();
+// view engine setup, view模板為ejs
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
