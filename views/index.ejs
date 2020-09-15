@@ -3,11 +3,35 @@
 
 <head>
   <title><%= title %>List</title>
+  <script type="text/javascript">
+
+    function Edit(id) {
+      window.location.href = "/edit?id=" + id;
+    }
+
+    function Delete(id) {
+      var rs = confirm('Confirm to delete?');
+      if (rs) {
+        window.location.href = "/restaurantDelete?id=" + id;
+      }
+    }
+
+    function Search() {
+      var restaurantId = document.getElementsByName('sRestaurantId')[0].value;
+      window.location.href = "/?restaurant=" + restaurantId;;
+    }
+
+  </script>
   <link rel='stylesheet' href='/stylesheets/style.css' />
 </head>
 
 <body>
   <h1><%= title %>List</h1>
+  <div class="search">
+    <label>RestaurantId：</label>
+    <input type="text" name="sRestaurantId" value="<%=restaurant%>" placeholder="input the RestaurantId">
+    <input type="button" name="sSearch" value="Search" onclick="Search();">
+  </div>
   <table>
     <tr>
       <th>id</th>
@@ -36,6 +60,10 @@
       </td>
       <td>
         <%= data[i].店名  %>
+      </td>
+      <td>
+        <input type="button" name="edit" value="Edit" onclick="Edit('<%= data[i].id  %>');" />
+        <input type="button" name="delete" value="Delete" onclick="Delete('<%= data[i].id  %>');" />
       </td>
     </tr>
     <% } %>

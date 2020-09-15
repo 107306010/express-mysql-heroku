@@ -13,7 +13,6 @@ var users = require('./routes/users');
 var pool = require('./models/connection_db')
 
 
-
 var app = express();
 // view engine setup, view模板為ejs
 app.set('views', path.join(__dirname, 'views'));
