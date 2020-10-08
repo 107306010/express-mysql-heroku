@@ -1,5 +1,6 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
+const paramValidator = require('../config/param_validator');
 
 const GetPageMethod = require('../controllers/page_controller');
 getPageMethod = new GetPageMethod();
@@ -7,20 +8,32 @@ getPageMethod = new GetPageMethod();
 const ServiceRestaurantMethod = require('../controllers/service_controller');
 serviceRestaurantMethod = new ServiceRestaurantMethod();
 
+const middleware = require("../middlefunctions/middlewares");
+
 /* GET home page. */
-router.get('/', getPageMethod.getHomePage);
+router.route("/")
+    .all(middleware.getHomePageData)
+    .get(getPageMethod.getHomePage)
+    .post(serviceRestaurantMethod.getSearchResult);
+
 
 /* GET add page. */
-router.get('/add', getPageMethod.getAddPage);
+router.route('/add')
+    .get(getPageMethod.getAddPage)
+    .post(paramValidator.addRestaurant, serviceRestaurantMethod.postAdd);
 
 /* GET edit page. */
-router.get('/edit', getPageMethod.getEditPage);
+router.route('/edit')
+    .get(getPageMethod.getEditPage)
+    .post(paramValidator.addRestaurant, serviceRestaurantMethod.postEdit);
 
-// add post
-router.post('/restaurantAdd', serviceRestaurantMethod.postAdd);
+/* GET comment add page. */
+router.route('/commentAdd')
+    .get(getPageMethod.getCommentAddPage)
+    .post(paramValidator.commentRestaurant, serviceRestaurantMethod.postCommentAdd);
 
-//edit post
-router.post('/restaurantEdit', serviceRestaurantMethod.postEdit);
+/* GET restaurant details page. */
+router.get('/details', getPageMethod.getDetailsPage);
 
 //delete
 router.get('/restaurantDelete', serviceRestaurantMethod.getDelete);

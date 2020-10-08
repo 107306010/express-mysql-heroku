@@ -3,20 +3,42 @@ page = new pageModel();
 
 module.exports = class PageController {
     getHomePage(req, res, next) {
-        var data = "";
-        var restaurant = "";
-        var restaurant = req.query.restaurant;
+        page.homePage().then(result => {
+            res.render('index', {
+                title: 'Restaurant', categories: res.locals.categories, region: res.locals.region,
+                data: { telephone: "", address: "", opentime: "0:00", closetime: "0:00", 類別: "", 店名: "" }
+            })
+        }, err => {
+            console.log(err)
+        })
+    }
 
-        var filter = "";
-        if (restaurant) {
-            filter = 'WHERE id = ?';
-        }
-        page.homePage(filter, restaurant).then(result => {
+    getAddPage(req, res, next) {
+        page.addPage().then(result => {
+            res.render('restaurantAdd', {
+                title: 'Add Restaurant',
+                data: { telephone: "", address: "", opentime: "0:00", closetime: "0:00", 類別: "", 店名: "" },
+                errorMessages: {},
+                categories: result
+            })
+        }, (err) => {
+            res.json({
+                result: err
+            })
+        })
+    }
+
+    getEditPage(req, res, next) {
+        //要抓取POST值 可以用 body 要抓取GET值 可以用 query
+        var id = req.query.id;
+        page.editPage(id).then(result => {
             // 若查詢成功則回傳
-            data = result;
-
-            res.render('index', { title: 'Restaurant', data: data, restaurant: restaurant });
-
+            res.render('restaurantEdit', {
+                title: 'Edit Restaurant',
+                data: result[0][0],
+                errorMessages: {},
+                categories: result[1]
+            });
         }, (err) => {
             // 若寫入失敗則回傳
             res.json({
@@ -25,20 +47,34 @@ module.exports = class PageController {
         })
     }
 
-    getAddPage(req, res, next) {
-        res.render('restaurantAdd', { title: 'Add Restaurant' });
+    getDetailsPage(req, res, next) {
+        var id = req.query.id;
+
+        page.detailsPage(id).then(result => {
+            let data = result[0];
+            let comment = result[1];
+            let avgScore = result[2];
+            res.render('restaurantDetails', {
+                title: 'Details Restaurant',
+                data: data, comment: comment, avgScore: avgScore
+            });
+        }, (err) => {
+            // 若寫入失敗則回傳
+            res.json({
+                result: err
+            })
+        })
     }
 
-    getEditPage(req, res, next) {
-        //要抓取POST值 可以用 body 要抓取GET值 可以用 query
+    getCommentAddPage(req, res, next) {
         var id = req.query.id;
-        var data = "";
-        page.editPage(id).then(result => {
+        page.commentPage(id).then(result => {
             // 若查詢成功則回傳
             data = result;
-
-            res.render('restaurantEdit', { title: 'Edit Restaurant', data: data });
-
+            res.render('restaurantAddComments', {
+                title: 'Add Restaurant'
+                , data: { foodname: "", score: "", inputcomment: "", id: id }, errorMessages: {}
+            });
         }, (err) => {
             // 若寫入失敗則回傳
             res.json({

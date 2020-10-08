@@ -5,13 +5,12 @@ module.exports = class RestaurantService {
         return new Promise((resolve, reject) => {
             // 將資料寫入資料庫
             db.query('INSERT INTO remote_restaurant SET ?', restaurantInfo, function (err, rows) {
-                // 若資料庫部分出現問題，則回傳給client端「伺服器錯誤，請稍後再試！」的結果。
                 if (err) {
                     console.log(err);
                     reject(rows);
                     return;
                 }
-                resolve(rows);
+                resolve(rows[0]);
             })
         })
     }
@@ -25,7 +24,7 @@ module.exports = class RestaurantService {
                     reject(rows);
                     return;
                 }
-                resolve(rows);
+                resolve(rows[0]);
             })
         })
     }
@@ -39,9 +38,64 @@ module.exports = class RestaurantService {
                     reject(rows);
                     return;
                 }
-                resolve(rows);
+                resolve(rows[0]);
             })
         })
     }
 
+    // Add comment model
+    addingComment([comment, id]) {
+        return new Promise((resolve, reject) => {
+            // 將資料寫入資料庫
+            db.query('INSERT INTO comments SET ? , `c_Rid`= ?', [comment, id], function (err, rows) {
+                if (err) {
+                    console.log(err);
+                    reject(rows);
+                    return;
+                }
+                resolve(rows[0]);
+            })
+        })
+    }
+
+    searchRestaurant(selectedValue) {
+        return new Promise((resolve, reject) => {
+            var whereSql = "";
+
+            var selectedSql = [];
+            if (selectedValue.keyword) {
+                selectedSql.push(`店名 LIKE "${selectedValue.keyword}%"`);
+            }
+            if (selectedValue.category) {
+                selectedSql.push(`類別 = ${selectedValue.category}`);
+            }
+            // if (score) {
+            //     selectedSql.push(`address LIKE ${keyword}%`);
+            // }
+            if (selectedValue.region) {
+                selectedSql.push(`address LIKE "${selectedValue.region}%"`);
+            }
+
+            if (selectedSql.length > 0) {
+                whereSql = "WHERE ";
+                for (let i = 0; i < selectedSql.length; i++) {
+                    if (i < selectedSql.length - 1) {
+                        whereSql += selectedSql[i] + " and ";
+                    }
+                    else {
+                        whereSql += selectedSql[i];
+                    }
+                }
+            }
+
+            db.query(`SELECT * from(remote_restaurant inner join r_categories on r_categories.categoryID = remote_restaurant.類別) ${whereSql}`, function (err, rows) {
+                if (err) {
+                    console.log(err);
+                    reject(rows);
+                    return;
+                }
+                resolve(rows);
+            })
+        })
+    }
 }

@@ -2,7 +2,7 @@
 <html>
 
 <head>
-  <title><%= title %>List</title>
+  <title>今晚，我想來點...</title>
   <script type="text/javascript">
 
     function Edit(id) {
@@ -16,59 +16,108 @@
       }
     }
 
+    function Details(id) {
+      window.location.href = "/details?id=" + id;
+    }
+
+    function CommentAdd(id) {
+      window.location.href = "/commentAdd?id=" + id;
+    }
+
     function Search() {
-      var restaurantId = document.getElementsByName('sRestaurantId')[0].value;
-      window.location.href = "/?restaurant=" + restaurantId;;
+      window.location.href = "/";
     }
 
   </script>
+  <!-- 引用Bootstrap.css -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+    integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
   <link rel='stylesheet' href='/stylesheets/style.css' />
 </head>
 
 <body>
-  <h1><%= title %>List</h1>
-  <div class="search">
-    <label>RestaurantId：</label>
-    <input type="text" name="sRestaurantId" value="<%=restaurant%>" placeholder="input the RestaurantId">
-    <input type="button" name="sSearch" value="Search" onclick="Search();">
-  </div>
+  <h1>今晚，我想來點...</h1>
+
+  <form name="selection" action="" method="POST" accept-charset="utf-8">
+    <div class="search">
+      <input type="text" name="keyword" placeholder="來點..">
+      <input type="submit" name="sSearch" value="Search" onclick="Search();">
+    </div>
+    <label>快速篩選</label>
+    <div>
+      <select name="r_categories">
+        <option disabled selected>類型</option>
+        <%for( var i = 0 ; i < categories.length ; i++){%>
+        <option value="<%=i%>"><%=categories[i].category_name%></option>
+        <%}%>
+    </select>
+      <select name="r_score">
+        <option disabled selected>評分</option>
+        <option value="volvo">Volvo</option>
+        <option value="saab">Saab</option>
+        <option value="opel">Opel</option>
+        <option value="audi">Audi</option>
+      </select>
+      <select name="r_region">
+        <option disabled selected>地區</option>
+        <%for( var i = 0 ; i < region.length ; i++){%>
+        <option value="<%=region[i].regeion_name%>"><%=region[i].regeion_name%></option>
+        <%}%>
+      </select>
+
+    </div>
+  </form>
+
   <table>
     <tr>
-      <th>id</th>
-      <th>address</th>
-      <th>telephone</th>
-      <th>營業時間</th>
-      <th>類別</th>
       <th>店名</th>
+      <th>評分</th>
+      <th>類別</th>
+      <th>營業時間</th>
+      <th>地址</th>
+      <th>telephone</th>
     </tr>
     <% for ( var i = 0 ; i < data.length ; i++){ %>
-    <tr>
-      <td>
-        <%= data[i].id  %>
-      </td>
-      <td>
-        <%= data[i].address  %>
-      </td>
-      <td>
-        <%= data[i].telephone  %>
-      </td>
-      <td>
-        <%= data[i].營業時間  %>
-      </td>
-      <td>
-        <%= data[i].類別  %>
-      </td>
-      <td>
-        <%= data[i].店名  %>
-      </td>
-      <td>
-        <input type="button" name="edit" value="Edit" onclick="Edit('<%= data[i].id  %>');" />
-        <input type="button" name="delete" value="Delete" onclick="Delete('<%= data[i].id  %>');" />
-      </td>
-    </tr>
-    <% } %>
-  </table>
-  <input type='submit' value='Add' onclick="javascript: location.href='add'">
+        <tr>
+          <td>
+            <a href="javascript:Details('<%= data[i].id  %>')"><%= data[i].店名  %></a>
+          </td>
+          <td>
+            <%= data[i].score  %>
+          </td>
+          <td>
+            <%= data[i].category_name  %>
+          </td>
+          <td>
+            <%= data[i].opentime%>~<%=data[i].closetime%>
+          </td>
+          <td>
+            <%= data[i].address  %>
+          </td>
+          <td>
+            <%= data[i].telephone  %>
+          </td>
+          <td>
+            <input type="button" name="edit" value="Edit" onclick="Edit('<%= data[i].id  %>');" />
+            <input type="button" name="delete" value="Delete" onclick="Delete('<%= data[i].id  %>');" />
+            <input type="button" name="addFoodComment" value="加餐點評價" onclick="CommentAdd('<%= data[i].id  %>')" />
+          </td>
+        </tr>
+        <% } %>
+        </table>
+        <input type='submit' value='Add' onclick="javascript: location.href='add'">
+        <!-- jquery -->
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+          integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+          crossorigin="anonymous"></script>
+        <!-- proper.js -->
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+          integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+          crossorigin="anonymous"></script>
+        <!-- bootstrap.js -->
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+          integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+          crossorigin="anonymous"></script>
 </body>
 
 </html>

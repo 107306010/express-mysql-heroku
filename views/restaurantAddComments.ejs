@@ -1,0 +1,25 @@
+<form name="comment" action="commentAdd" method="post" accept-charset="utf-8">
+    <h1>Comment - Add</h1>
+    <input type="hidden" name="id" value="<%=data.id  %>" />
+    <% if(errorMessages[0]){%>
+    <%for (var i=0; i < errorMessages.length; i++){%>
+    <label><%=errorMessages[i].msg%></label>
+    <%}}%>
+    <div>
+        <label>餐點名稱：</label>
+        <input type="text" name="foodname" value="<%=data.foodname%>">
+    </div>
+    <div>
+        <label>評分：</label>
+        <input type="text" name="score" value="<%=data.score%>">
+    </div>
+    <div>
+        <label>評論：</label>
+        <textarea name="inputcomment" rows="4" cols="50"
+            value="<%=data.inputcomment%>"><%=data.inputcomment%></textarea>
+    </div>
+    <div>
+        <input type='submit' value='建立新評價'>
+        <input type='button' value='Back' onclick="javascript: location.href='/'">
+    </div>
+</form>

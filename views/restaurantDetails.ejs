@@ -1,0 +1,73 @@
+<script type="text/javascript">
+
+    function Edit(id) {
+        window.location.href = "/edit?id=" + id;
+    }
+
+    function Delete(id) {
+        var rs = confirm('Confirm to delete?');
+        if (rs) {
+            window.location.href = "/restaurantDelete?id=" + id;
+        }
+    }
+
+    function CommentAdd(id) {
+        window.location.href = "/commentAdd?id=" + id;
+    }
+
+</script>
+<form name="foodDetails" action="foodEdit" method="post" accept-charset="utf-8">
+    <h1>Restaurant - Food & Comments</h1>
+    <table>
+        <tr>
+            <th>店名</th>
+            <th>評分</th>
+            <th>類別</th>
+            <th>營業時間</th>
+            <th>地址</th>
+            <th>telephone</th>
+        </tr>
+        <tr>
+            <td>
+                <%= data[0].店名  %>
+            </td>
+            <td>
+                <%= avgScore[0].avgScore.toFixed(2)%>
+            </td>
+            <td>
+                <%= data[0].category_name  %>
+            </td>
+            <td>
+                <%= data[0].opentime%>~<%=data[0].closetime%>
+            </td>
+            <td>
+                <%= data[0].address  %>
+            </td>
+            <td>
+                <%= data[0].telephone  %>
+            </td>
+            <td>
+                <input type="button" name="edit" value="Edit" onclick="Edit('<%= data[0].id  %>');" />
+                <input type="button" name="delete" value="Delete" onclick="Delete('<%= data[0].id  %>');" />
+                <input type="button" name="addFoodComment" value="加餐點評價" onclick="CommentAdd('<%= data[0].id  %>');" />
+            </td>
+        </tr>
+    </table>
+    <table>
+        <tr>
+            <th>餐點名稱</th>
+            <th>評分</th>
+            <th>評論</th>
+        </tr>
+        <% for ( var i = 0 ; i < comment.length ; i++){ %>
+        <tr>
+            <td><%=comment[i].foodName%></td>
+            <td><%=comment[i].c_score%></td>
+            <td><%=comment[i].advices%></td>
+        </tr>
+        <%}%>
+    </table>
+        <div>
+            <input type='button' value='Back' onclick="javascript: location.href='/';">
+        </div>
+</form>

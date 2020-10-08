@@ -5,42 +5,90 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title></title>
+    <!-- 引用Bootstrap.css -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" />
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <!-- clockpicker -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/clockpicker/0.0.7/bootstrap-clockpicker.min.css"
+        integrity="sha512-MT4B7BDQpIoW1D7HNPZNMhCD2G6CDXia4tjCdgqQLyq2a9uQnLPLgMNbdPY7g6di3hHjAI8NGVqhstenYrzY1Q=="
+        crossorigin="anonymous" />
+
 </head>
 
 <body>
-    <form name="addform" action="restaurantAdd" method="post" accept-charset="utf-8">
+    <form name="addform" action="add" method="post" accept-charset="utf-8">
         <h1>Restaurant - Add</h1>
+
+        <% if(errorMessages[0]){%>
+        <%for (var i=0; i < errorMessages.length; i++){%>
+        <label><%=errorMessages[i].msg%></label>
+        <%}}%>
+
         <div>
-            <label>id：</label>
-            <input type="text" name="id" placeholder="id" />
+            <label>店名：</label>
+            <input type="text" name="店名" placeholder="店名" value="<%=data.店名%>">
         </div>
+
+        <div>
+            <label>餐廳類型：</label>
+            <select name="r_categories">
+                <option disabled selected>類型</option>
+                <%for( var i = 0 ; i < categories.length ; i++){%>
+                <option value="<%=i%>"><%=categories[i].category_name%></option>
+                <%}%>
+            </select>
+        </div>
+
+        <div>
+            <label>營業時間：</label>
+                <div class="input-group clockpicker">
+                    <input name="opentime" id="time1" type="text" class="form-control" value="<%=data.opentime  %>">
+                <div class="input-group-append">
+                    <span class="input-group-text" id="basic-addon2">~</span>
+                </div>
+                <input name="closetime" id="time2" type="text" class="form-control" value="<%=data.closetime  %>">
+        </div>
+
         <div>
             <label>address：</label>
             <!-- type:password 輸入文字變圓點 -->
-            <input type="text" name="address" placeholder="address">
+            <input type="text" name="address" placeholder="address" value="<%=data.address%>">
         </div>
+
         <div>
             <label>telephone：</label>
-            <input type="text" name="telephone" placeholder="telephone">
+            <input type="text" name="telephone" placeholder="telephone" value="<%=data.telephone%>">
         </div>
-        <div>
-            <label>營業時間：</label>
-            <input type="text" name="營業時間" placeholder="營業時間">
-        </div>
-        <div>
-            <label>類別：</label>
-            <input type="text" name="類別" placeholder="類別">
-        </div>
-        <div>
-            <label>店名：</label>
-            <input type="text" name="店名" placeholder="店名">
-        </div>
+
         <div>
             <input type='submit' value='Submit'>
-            <input type='reset' value='Reset'>
             <input type='button' value='Back' onclick="javascript: location.href='/'">
         </div>
+
+
     </form>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+
+    <!-- 引用jquery -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!-- clockpicker -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clockpicker/0.0.7/jquery-clockpicker.min.js"
+        integrity="sha512-x0qixPCOQbS3xAQw8BL9qjhAh185N7JSw39hzE/ff71BXg7P1fkynTqcLYMlNmwRDtgdoYgURIvos+NJ6g0rNg=="
+        crossorigin="anonymous"></script>
+    <!-- main.js  -->
+    <script src="/javascripts/main.js"></script>
 </body>
 
 </html>
