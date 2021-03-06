@@ -142,7 +142,7 @@ module.exports = class ServiceController {
         //console.log(selectedValue);
 
         service.searchRestaurant(selectedValue).then(result => {
-            return res.render('index', { data: result, categories: res.locals.categories, region: res.locals.region })
+            return res.render('index', { data: result[0], categories: result[1], region: result[2] })
         }, (err) => {
             console.log(err)
             res.json({

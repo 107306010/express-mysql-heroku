@@ -88,7 +88,9 @@ module.exports = class RestaurantService {
                 }
             }
 
-            db.query(`SELECT * from(remote_restaurant inner join r_categories on r_categories.categoryID = remote_restaurant.類別) ${whereSql}`, function (err, rows) {
+            db.query(`SELECT * from(remote_restaurant inner join r_categories on r_categories.categoryID = remote_restaurant.類別) ${whereSql};
+                SELECT category_name from r_categories;
+                SELECT regeion_name from r_region;`, function (err, rows) {
                 if (err) {
                     console.log(err);
                     reject(rows);
