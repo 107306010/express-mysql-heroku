@@ -8,7 +8,7 @@ var bodyParser = require('body-parser');
 var routes = require('./routes/index');
 var users = require('./routes/users');
 
-
+const middleware = require("./middlefunctions/middlewares");
 //DataBase 
 var pool = require('./models/connection_db')
 
@@ -33,7 +33,7 @@ app.use(function (req, res, next) {
   next();
 });
 
-app.use('/', routes);
+app.use('/', middleware.getHomePageData,routes);
 app.use('/users', users);
 
 

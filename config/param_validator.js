@@ -36,7 +36,7 @@ module.exports = {
                     throw new Error('請給1-10分')
                 }
                 else if (isNaN(Number(value))) {
-                    throw new Error('我只算正實數!不要78亂打')
+                    throw new Error('我只算正實數!不要亂打')
                 }
                 // 成功驗證回傳 true
                 return true

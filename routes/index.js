@@ -8,12 +8,9 @@ getPageMethod = new GetPageMethod();
 const ServiceRestaurantMethod = require('../controllers/service_controller');
 serviceRestaurantMethod = new ServiceRestaurantMethod();
 
-const middleware = require("../middlefunctions/middlewares");
-
 /* GET home page. */
 router.route("/")
-    .all(middleware.getHomePageData)
-    .get(getPageMethod.getHomePage)
+    .get(getPageMethod.getHomePage,)
     .post(serviceRestaurantMethod.getSearchResult);
 
 

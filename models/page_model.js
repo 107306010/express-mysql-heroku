@@ -4,8 +4,7 @@ module.exports = class GetPage {
         return new Promise((resolve, reject) => {
             // 將資料寫入資料庫
             db.query(`SELECT category_name from r_categories;
-            SELECT regeion_name from r_regeion;`, function (err, rows) {
-                // 若資料庫部分出現問題，則回傳給client端「伺服器錯誤，請稍後再試！」的結果。
+            SELECT regeion_name from r_region;`, function (err, rows) {
                 if (err) {
                     console.log(err);
                     reject(rows);
@@ -13,6 +12,7 @@ module.exports = class GetPage {
                 }
                 //回傳查詢資料
                 resolve(rows);
+                console.log(rows[0],rows[1])
             })
         })
     }
@@ -27,7 +27,7 @@ module.exports = class GetPage {
                     return;
                 }
                 //回傳資料
-                console.log(rows);
+                //console.log(rows);
                 resolve(rows);
 
             })
@@ -82,7 +82,7 @@ module.exports = class GetPage {
 
     commentPage(restaurantId) {
         return new Promise((resolve, reject) => {
-            db.query(`SELECT id FROM remote_restaurant WHERE id = ${restaurantId}`, function (err, rows) {
+            db.query(`SELECT * FROM remote_restaurant WHERE id = ${restaurantId}`, function (err, rows) {
                 if (err) {
                     console.log(err);
                     reject(rows);

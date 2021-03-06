@@ -34,7 +34,7 @@ module.exports = class ServiceController {
         else {
             // 將資料寫入資料庫
             service.edittingRestaurant([updatedInfo, id1]).then(result => {
-                res.redirect('/');
+                return res.redirect('/');
             }, (err) => {
                 // 若寫入失敗則回傳
                 res.json({
@@ -74,7 +74,7 @@ module.exports = class ServiceController {
         // 無錯誤訊息=驗證成功 將資料寫入資料庫
         else {
             service.addingRestaurant(restaurantInfo).then(result => {
-                res.redirect('/');
+                return res.redirect('/');
             }, (err) => {
                 // 若寫入失敗則回傳
                 res.json({
@@ -90,7 +90,7 @@ module.exports = class ServiceController {
         const id = req.query.id;
 
         service.deletingRestaurant(id).then(result => {
-            res.redirect('/');
+            return res.redirect('/');
         }, (err) => {
             // 若寫入失敗則回傳
             res.json({
@@ -124,7 +124,7 @@ module.exports = class ServiceController {
         }
         // 將資料寫入資料庫
         service.addingComment([comment, rID]).then(result => {
-            res.redirect('/details?id=' + rID);
+            return res.redirect('/details?id=' + rID);
         }, (err) => {
             // 若寫入失敗則回傳
             res.json({
@@ -139,10 +139,10 @@ module.exports = class ServiceController {
             category: req.body.r_categories,
             region: req.body.r_region
         }
-        console.log(selectedValue);
+        //console.log(selectedValue);
 
         service.searchRestaurant(selectedValue).then(result => {
-            res.render('index', { data: result, categories: res.locals.categories, region: res.locals.region })
+            return res.render('index', { data: result, categories: res.locals.categories, region: res.locals.region })
         }, (err) => {
             console.log(err)
             res.json({

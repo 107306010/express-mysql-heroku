@@ -4,9 +4,9 @@ page = new pageModel();
 module.exports = class PageController {
     getHomePage(req, res, next) {
         page.homePage().then(result => {
-            res.render('index', {
-                title: 'Restaurant', categories: res.locals.categories, region: res.locals.region,
-                data: { telephone: "", address: "", opentime: "0:00", closetime: "0:00", 類別: "", 店名: "" }
+            return res.render('index', {
+                title: 'Restaurant', categories: result[0], region: result[1],
+                data: { telephone: "", address: "", opentime: "0:00", closetime: "0:00", 類別: "", 店名: ""}
             })
         }, err => {
             console.log(err)
@@ -15,7 +15,7 @@ module.exports = class PageController {
 
     getAddPage(req, res, next) {
         page.addPage().then(result => {
-            res.render('restaurantAdd', {
+            return res.render('restaurantAdd', {
                 title: 'Add Restaurant',
                 data: { telephone: "", address: "", opentime: "0:00", closetime: "0:00", 類別: "", 店名: "" },
                 errorMessages: {},
@@ -33,7 +33,7 @@ module.exports = class PageController {
         var id = req.query.id;
         page.editPage(id).then(result => {
             // 若查詢成功則回傳
-            res.render('restaurantEdit', {
+            return res.render('restaurantEdit', {
                 title: 'Edit Restaurant',
                 data: result[0][0],
                 errorMessages: {},
@@ -54,7 +54,7 @@ module.exports = class PageController {
             let data = result[0];
             let comment = result[1];
             let avgScore = result[2];
-            res.render('restaurantDetails', {
+            return res.render('restaurantDetails', {
                 title: 'Details Restaurant',
                 data: data, comment: comment, avgScore: avgScore
             });
@@ -70,8 +70,7 @@ module.exports = class PageController {
         var id = req.query.id;
         page.commentPage(id).then(result => {
             // 若查詢成功則回傳
-            data = result;
-            res.render('restaurantAddComments', {
+            return res.render('restaurantAddComments', {
                 title: 'Add Restaurant'
                 , data: { foodname: "", score: "", inputcomment: "", id: id }, errorMessages: {}
             });
