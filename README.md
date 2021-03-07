@@ -7,3 +7,5 @@ Demo: [https://dd52testing.herokuapp.com](https://dd52testing.herokuapp.com/)
 一進首頁會是空的，按下搜尋鍵後會產出資料庫內所有餐廳(預設搜尋是回傳所有)<br>
 可以增加餐廳、餐廳內餐點、編輯餐廳資訊、刪除餐廳等動作<br>
 可透過關鍵字搜尋餐廳名稱，亦可加入地區、種類一起查詢。
+## concerns
+沒有做任何安全性的東西可能不太安全ex:injection
